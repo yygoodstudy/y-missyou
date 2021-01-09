@@ -2,6 +2,8 @@ package com.yy.ymissyou.api.v1;
 
 import com.yy.ymissyou.dto.PersonDTO;
 import com.yy.ymissyou.sample.ISkill;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 //@Lazy // 延迟加载（实例化）
 @RequestMapping("/exception")
 @Controller
-//@Validated
+@Validated
 public class BannerController {
 
 
@@ -43,11 +45,13 @@ public class BannerController {
     //    this.diana = diana;
     //}
 
-    @GetMapping(value = "/test/{id}") // 方法路由,method:标明该方法的请求动词
+    @GetMapping(value = "/test/{id}/{name}") // 方法路由,method:标明该方法的请求动词
     @ResponseBody
     // 1.@RequestBody Map<String,Object> person接收前端请求体中传来参数。
     //
-    public String test(@Validated String name,@Validated @PathVariable("id") Long id) {
+    public String test(
+            @Validated @Range(min = 1, max = 10, message = "URL中的id值需要在1和10之间") @PathVariable("id") Long id,
+            @Length(min = 3, max = 10) @PathVariable("name") String name) {
         //iSkill.r();
         //System.out.println("bannerService = " + bannerService);
         //System.out.println("id = " + id);
@@ -68,14 +72,14 @@ public class BannerController {
 
     @GetMapping("/test1")
     @ResponseBody
-    public String test1(@Validated PersonDTO personDTO){
+    public String test1(@Validated PersonDTO personDTO) {
         System.out.println("personDTO = " + personDTO);
         return "hello world";
     }
 
     @PostMapping("/test2")
     @ResponseBody
-    public PersonDTO test2(@Validated @RequestBody PersonDTO personDTO){
+    public PersonDTO test2(@Validated @RequestBody PersonDTO personDTO) {
         return personDTO;
     }
 }
