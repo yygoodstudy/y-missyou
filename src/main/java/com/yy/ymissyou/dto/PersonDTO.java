@@ -29,4 +29,7 @@ public class PersonDTO {
     private Integer age;
     @Valid // 作用：标记于级联属性之上，这样级联属性上的验证才能生效。
     private SchoolDTO schoolDTO;
+
+    private String password1;
+    private String password2;
 }
