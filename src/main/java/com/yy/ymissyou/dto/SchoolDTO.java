@@ -16,5 +16,6 @@ public class SchoolDTO {
 
     @Length(min = 2,max = 20,message = "长度应该介于2和20之间")
     private String schoolName;
+    private String testName;
 
 }
