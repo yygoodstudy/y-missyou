@@ -2,7 +2,7 @@ package com.yy.ymissyou.core;
 
 /**
  * @Date: 2020/12/26 23:21
- * @Description:
+ * @Description: 封装了需要返回给前端页面的异常信息
  */
 public class UnifyResponse {
 
