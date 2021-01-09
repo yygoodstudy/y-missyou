@@ -1,1 +1,1 @@
-# y-missyou
+该项目主要是spring boot 学习写的demo,里面主要包含了spring的IOC以及DI，spring全局异常处理，JSR303校验，JPA，mybatisPlus等的demo代码，方便在工作中遇到问题帮助查阅。
