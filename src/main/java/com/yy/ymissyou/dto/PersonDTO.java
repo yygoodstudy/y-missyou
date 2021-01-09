@@ -1,5 +1,6 @@
 package com.yy.ymissyou.dto;
 
+import com.yy.ymissyou.validators.PasswordEqual;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -21,6 +22,7 @@ import javax.validation.Valid;
 @Setter
 @Getter
 @ToString
+@PasswordEqual(min = 6,message = "两次输入的密码不相同")
 public class PersonDTO {
 
     @NonNull // 该参数不能为空
