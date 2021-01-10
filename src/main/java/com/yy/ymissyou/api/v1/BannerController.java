@@ -1,13 +1,17 @@
 package com.yy.ymissyou.api.v1;
 
-import com.yy.ymissyou.dto.PersonDTO;
+import com.yy.ymissyou.model.Banner;
 import com.yy.ymissyou.sample.ISkill;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
+import com.yy.ymissyou.service.BannerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * @Date: 2020/12/6 17:15
@@ -18,16 +22,25 @@ import org.springframework.web.bind.annotation.*;
 //@RestController // = @ResponseBody + @Controller
 //@RequestMapping("/v1/banner")
 //@Lazy // 延迟加载（实例化）
-@RequestMapping("/exception")
 @Controller
+@RequestMapping("/exception")
 @Validated
 public class BannerController {
 
 
-    @Autowired //属性注入
+    //@Autowired //属性注入
     //@Qualifier("rivenMm") // 指定具体要注入bean的名字
     //@Qualifier("diana")
     private ISkill iSkill;
+
+    //@Autowired
+    private BannerServiceImpl bannerService;
+
+    @Autowired
+    public BannerController(BannerServiceImpl bannerService, ISkill iSkill){
+        this.bannerService = bannerService;
+        this.iSkill = iSkill;
+    }
 
     //@Autowired
     //private IConnect iConnect;
@@ -45,11 +58,11 @@ public class BannerController {
     //    this.diana = diana;
     //}
 
-    @GetMapping(value = "/test/{id}/{name}") // 方法路由,method:标明该方法的请求动词
-    @ResponseBody
+    //@GetMapping(value = "/test/{id}/{name}") // 方法路由,method:标明该方法的请求动词
+    //@ResponseBody
     // 1.@RequestBody Map<String,Object> person接收前端请求体中传来参数。
     //
-    public String test(
+    /*public String test(
             @Validated @Range(min = 1, max = 10, message = "URL中的id值需要在1和10之间") @PathVariable("id") Long id,
             @Length(min = 3, max = 10) @PathVariable("name") String name) {
         //iSkill.r();
@@ -78,8 +91,22 @@ public class BannerController {
     }
 
     @PostMapping("/test2")
-    @ResponseBody
+    @ResponseBody // @RequestBody主要用来接收前端传递给后端的json字符串中的数据的(请求体中的数据的)；
+    //GET方式无请求体，所以使用@RequestBody接收数据时，前端不能使用GET方式提交数据，而是用POST方式进行提交。
+    //在后端的同一个接收方法里，@RequestBody与@RequestParam()可以同时使用，@RequestBody最多只能有一个，而@RequestParam()可以有多个。
     public PersonDTO test2(@Validated @RequestBody PersonDTO personDTO) {
         return personDTO;
+    }*/
+
+    @GetMapping("/name/{name}") // @NotBlank:标明该属性该参数既不能为null,长度必须大于0
+    @ResponseBody
+    public Banner getByName(@NotBlank @PathVariable("name") String name){
+        // JPA会根据方法的命名规范自动推导出sql语句来
+        Banner banner = bannerService.getByName(name);
+        return banner;
     }
+
 }
+
+
+
